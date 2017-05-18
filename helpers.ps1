@@ -13,16 +13,16 @@ function Get-ComputerMemory
 function Get-CPUInfo
 {
     $CPUInfo = [PSCustomObject]@{
-        'Number'     = 0
-        'TotalCores' = 0
-        'MHz'        = 0
-        'Name'       = ''
+        'Sockets'           = 0
+        'TotalCores'        = 0
+        'CurrentClockSpeed' = 0
+        'Name'              = ''
     }
     foreach ($cpu in (Get-CimInstance CIM_Processor))
     {
-        $CPUInfo.Number += 1
+        $CPUInfo.Sockets += 1
         $CPUInfo.TotalCores += $cpu.NumberOfCores
-        $CPUInfo.MHz = $cpu.CurrentClockSpeed
+        $CPUInfo.CurrentClockSpeed = $cpu.CurrentClockSpeed
         $CPUInfo.Name = $cpu.Name
     }
 
@@ -31,22 +31,27 @@ function Get-CPUInfo
 
 function Get-IPAddresses
 {
-    $IPAddress = @()
+    $IPAddresses = @()
     foreach ($nic in Get-Netadapter)
     {
         ## Skip disabled adapters
-        if ($nic.Status -eq "Disabled") { continue }
+        if ($nic.Status -ne 'Up') { continue }
 
         foreach ($ipAddr in Get-NetIPAddress)
         {
             if ($ipAddr.InterfaceIndex -eq $nic.ifIndex)
             {
-                $IPAddress += $ipAddr.IPAddress
+                $IPAddress = [ordered]@{}
+                $IPAddress['Name'] = $nic.Name
+                $IPAddress['IPAddress'] = $ipAddr.IPAddress
+                $IPAddress['AddressFamily'] = $ipAddr.AddressFamily
+                $IPADdress['MacAddress'] = $nic.MacAddress
+                $IPAddresses += ([PSCustomObject]$IPAddress)
             }
         }
     }
 
-    Write-Output $IPAddress
+    Write-Output $IPAddresses
 }
 
 function Get-InstalledFeatures
