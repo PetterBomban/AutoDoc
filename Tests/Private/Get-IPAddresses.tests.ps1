@@ -15,7 +15,7 @@ InModuleScope AutoDoc {
 
         Context 'Type Checks' {
             It 'Should be [System.Array]' {
-                (Get-IPAddresses) | Should BeOfType [System.Array]
+                ,(Get-IPAddresses) | Should BeOfType [System.Array]
             }
         }
 
