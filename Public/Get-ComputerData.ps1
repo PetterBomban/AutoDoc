@@ -7,8 +7,6 @@ function Get-ComputerData
 
     begin
     {
-        ## Import helper scripts, such as Get-CPUInfo etc.
-        . .\helpers.ps1
     }
 
     process
@@ -30,16 +28,7 @@ function Get-ComputerData
         $Obj.TotalMemory = Get-ComputerMemory
         $OBj.CPU = Get-CPUInfo
         $Obj.IPAddresses = Get-IPAddresses
-
-        ## Get-WindowsFeature is not supported on client-OS'es
-        try
-        {
-            $Obj.InstalledFeatures = Get-InstalledFeatures
-        }
-        catch
-        {
-            $Obj.InstalledFeatures = 'Not supported'
-        }
+        $Obj.InstalledFeatures = Get-InstalledFeatures
 
         Write-Output $Obj
     }
