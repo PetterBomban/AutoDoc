@@ -6,8 +6,12 @@ function Get-InstalledFeatures
     }
     catch 
     {
-        $Features = @("Not supported")
-        return $Features
+        $NotSupported = [PSCustomObject]@{
+            'Installed' = $True
+            'Name'      = 'Not supported on client OS'
+        }
+
+        $Features = @($NotSupported)
     }
 
     $InstalledFeatures = @()
@@ -16,5 +20,5 @@ function Get-InstalledFeatures
         if ($Feature.Installed -eq $true) { $InstalledFeatures += $Feature.Name }
     }
 
-    Write-Output $InstalledFeatures
+    Write-Output [Array]($InstalledFeatures)
 }
