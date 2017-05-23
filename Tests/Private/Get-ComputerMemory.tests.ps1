@@ -14,16 +14,18 @@ InModuleScope AutoDoc {
         }
         
         Context 'Type Checks' {
-            It 'Should be [System.Object]' {
-                Get-ComputerMemory | Should BeOfType [System.Object]
+            $ComputerMemory = Get-ComputerMemory
+
+            It 'Should be [PSCustomObject]' {
+                $ComputerMemory | Should BeOfType [PSCustomObject]
             }
 
             It 'Capacity should be [UInt64]' {
-                (Get-ComputerMemory).TotalCapacity | Should BeOfType [UInt64]
+                $ComputerMemory.TotalCapacity | Should BeOfType [UInt64]
             }
 
             It 'Slots should be [Int]' {
-                (Get-ComputerMemory).TotalSlots | Should BeOfType [Int]
+                $ComputerMemory.TotalSlots | Should BeOfType [Int]
             }
         }
     }

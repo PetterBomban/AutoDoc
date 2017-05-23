@@ -13,8 +13,18 @@ InModuleScope AutoDoc {
             }
         }
 
-        Context 'Mock Calls' {
+        Context 'Type Checks' {
+            It 'Should be [PSCustomObject]'{
+                ,(Get-ComputerData) | Should BeOfType [PSCustomObject]
+            }
+        }
 
+        Context 'Object Members' {
+            It 'ComputerName should exist' {
+                $ComputerData = Get-ComputerData
+
+                $ComputerData.ComputerName | Should BeOfType [String]
+            }
         }
     }
 }

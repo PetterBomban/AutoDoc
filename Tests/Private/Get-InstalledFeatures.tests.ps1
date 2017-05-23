@@ -20,7 +20,7 @@ InModuleScope AutoDoc {
             }
         }
 
-        Context 'Mocks are called' {
+        Context 'Mocks' {
             It 'Calls Get-WindowsFeature once' {
                 Mock Get-WindowsFeature -MockWith {
                     return @(
@@ -38,8 +38,7 @@ InModuleScope AutoDoc {
                 }
 
                 Get-InstalledFeatures 
-                $CalledOnce = 1
-                Assert-MockCalled -CommandName Get-WindowsFeature -Times $CalledOnce
+                Assert-MockCalled -CommandName Get-WindowsFeature -Times 1
             }
         }
     }
