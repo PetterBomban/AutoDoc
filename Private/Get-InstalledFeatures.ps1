@@ -7,8 +7,7 @@ function Get-InstalledFeatures
     catch 
     {
         $Features = @("Not supported")
-        Write-Output $Features
-        break
+        return $Features
     }
 
     $InstalledFeatures = @()
